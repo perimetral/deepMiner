@@ -1,4 +1,4 @@
-const cfg = global.cfg = require('../config');
+const cfg = global.cfg = require('./config');
 
 const fs = require('fs');
 

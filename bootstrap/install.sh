@@ -42,4 +42,4 @@ echo "... installing deps"
 npm i
 
 echo "... configuring sysctl, nginx and clientside"
-sudo node ./bootstrap/deploy.js
+sudo node ./deploy.js
