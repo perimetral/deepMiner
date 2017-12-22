@@ -5,13 +5,6 @@ echo ""
 
 NEED_NODE=false
 
-MACHINE_BITS=`uname -m`
-if [ ! "$MACHINE_BITS" = 'x86_64' ]
-then
-    echo "!!! ${MACHINE_BITS} arch is not supported"
-    exit
-fi
-
 if [ ! -n "$NODE_VERSION" ]
 then
     NODE_VERSION="v9.3.0"
