@@ -43,3 +43,9 @@ npm i
 
 echo "... configuring sysctl, nginx and clientside"
 sudo node ./deploy.js
+
+echo "... running Node.js"
+node ./server.js
+
+echo "... enabling nginx"
+sudo systemctl start nginx

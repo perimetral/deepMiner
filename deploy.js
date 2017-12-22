@@ -28,3 +28,5 @@ miner = miner.split('$$endpoint').join(cfg.server.uri);
 miner = miner.split('$$wsEndpoint').join(cfg.server.wsuri);
 fs.writeFileSync(`${cfg.webRoot}/${cfg.minerFilename}`, miner, 'utf8');
 miner = undefined;
+
+process.exit(0);
