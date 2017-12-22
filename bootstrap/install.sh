@@ -48,8 +48,8 @@ cd uDeepMiner
 echo "... installing deps"
 npm i
 
-echo "... importing nginx configuration"
-cp ./nginx.conf /etc/nginx/.
-
-echo "... switching to configurator"
+echo "... configuring sysctl and nginx"
 sudo node ./bootstrap/deploy.js
+
+echo "... importing nginx configuration"
+cp ./bootstrap/nginx.conf /etc/nginx/.

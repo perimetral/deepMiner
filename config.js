@@ -1,6 +1,7 @@
 const cfg = {};
 
 cfg.server = {};
+cfg.server.appPort = 80;
 cfg.server.port = 7777;
 cfg.server.domain = 'www.mywiki.ca';
 
@@ -17,8 +18,8 @@ cfg.ssl.enabled = false;
 cfg.ssl.key = '';
 cfg.ssl.cert = '';
 
-cfg.nettunepath = '/etc/sysctl.d/89-udeepminer.conf';
-cfg.nettune = {
+cfg.netTunePath = '/etc/sysctl.d/89-udeepminer.conf';
+cfg.netTune = {
     'net.ipv4.tcp_tw_reuse': '1',
     'net.ipv4.tcp_fin_timeout': '10',
     'net.core.netdev_max_backlog': '32768',
@@ -39,5 +40,9 @@ cfg.nettune = {
     'vm.min_free_kbytes': `${1024 * 256}`,
     'vm.swappiness': '3'
 };
+cfg.nginxInput = './nginx.conf';
+cfg.nginxPath = '/etc/nginx/nginx.conf';
+cfg.libRoot = `${__dirname}/web/lib/`;
+cfg.webRoot = `${__dirname}/web/public/`;
 
 module.exports = cfg;
