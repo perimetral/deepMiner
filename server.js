@@ -7,7 +7,7 @@
  */
 var http = require('http'),
     https = require('https'),
-    WebSocket = require("ws"),
+    WebSocket = require("uws"),
     net = require('net'),
     fs = require('fs'),
     crypto = require("crypto");
@@ -57,9 +57,11 @@ if (ssl) {
 
 // Miner Proxy Srv
 var srv = new WebSocket.Server({
+    perMessageDeflate: false,
     server: web,
     path: "/proxy",
-    maxPayload: 256
+    maxPayload: 256,
+    backlog: 32768,
 });
 srv.on('connection', (ws) => {
     var conn = {

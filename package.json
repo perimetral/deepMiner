@@ -1,16 +1,20 @@
 {
-  "name": "deepminer",
-  "version": "1.0.2",
-  "description": "deepminer",
-  "repository": "https://github.com/deepwn/deepMiner",
+  "name": "udeepminer",
+  "version": "1.0.3",
+  "description": "optimized deepminer",
+  "repository": "https://github.com/perimetral/uDeepMiner",
   "main": "server.js",
   "dependencies": {
-    "ws": "^3.3.3"
+    "ws": "*",
+    "uws": "*",
+    "pm2": "*",
+    "bufferutil": "*",
+    "utf-8-validate": "*"
   },
   "devDependencies": {},
   "scripts": {
     "start": "node server.js"
   },
-  "author": "evil7",
+  "author": "perimetral",
   "license": "MIT"
 }
