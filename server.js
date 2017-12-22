@@ -1,10 +1,10 @@
 const cfg = global.cfg = require('./config');
 
-const http = require('http'),
-const https = require('https'),
-const WebSocket = require('uws'),
-const net = require('net'),
-const fs = require('fs'),
+const http = require('http');
+const https = require('https');
+const WebSocket = require('uws');
+const net = require('net');
+const fs = require('fs');
 const crypto = require('crypto');
 
 const readFilePromise = async (...opts) => {
@@ -40,7 +40,7 @@ let server = cfg.ssl.enabled ? https.createServer({
 	cert: cfg.ssl.cert
 }, stats) : http.createServer(stats);
 
-let wsServer = new WebSocket.Server(Object.assign({}, cfg.ws.serverOpts, { server });
+let wsServer = new WebSocket.Server(Object.assign({}, cfg.uws.serverOpts, { server }));
 wsServer.on('connection', (ws) => {
 	let conn = {
 		uid: null,
@@ -134,8 +134,7 @@ wsServer.on('connection', (ws) => {
 					buf = {
 						"type": "error",
 						"params": {
-					{
-			"error": data.error.message
+							"error": data.error.message
 						},
 					};
 				};
