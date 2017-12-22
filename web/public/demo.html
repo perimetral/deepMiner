@@ -5,13 +5,13 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>deepMiner</title>
+	<title>uDeepMiner</title>
 	<style>
 		th {
 			width: 180px;
 		}
 	</style>
-	<script src="https://deepminerplus-perimetral.c9users.io:8080/deepMiner.js"></script>
+	<script src="http://localhost:7777/public/deepMiner.js"></script>
 	<script>
 		var addr = 'deepMiner_test';
 		var miner = new deepMiner.Anonymous(addr, {
@@ -28,16 +28,18 @@
 			accepted++;
 		})
 		// Update stats once per second
+		let t1 = new Date().getTime();
 		setInterval(function () {
 			var idle = parseFloat(location.hash.split('#')[1]) || 0.5;
 			var hashesPerSecond = miner.getHashesPerSecond();
 			var totalHashes = miner.getTotalHashes();
 			var acceptedHashes = miner.getAcceptedHashes();
 			miner.setThrottle(idle);
+			let time = new Date().getTime();
 			document.body.innerHTML = '<h2>deepMiner User : ' + addr +
-				'</h2><table border="1"><tr><th>Threads</th><th>Hashs</th><th>Found</th><th>Verfiy</th></tr><tr><td>' + parseInt(
+				'</h2><table border="1"><tr><th>Threads</th><th>Hashs</th><th>Found</th><th>Verfiy</th><th>avg</th></tr><tr><td>' + parseInt(
 					hashesPerSecond) + '</td><td>' + totalHashes + '</td><td>' + found + '</td><td>' + accepted +
-				'</td></tr></<table>';
+				'</td><td>' + (((time - t1) / totalHashes) * 2) + '</td></tr></<table>';
 		}, 500);
 	</script>
 </head>

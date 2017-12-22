@@ -1,7 +1,7 @@
 self.deepMiner = self.deepMiner || {};
 self.deepMiner.CONFIG = {
-    LIB_URL: "https://deepminerplus-perimetral.c9users.io:8080/lib/",
-    WEBSOCKET_SHARDS: [["wss://deepminerplus-perimetral.c9users.io:8080/proxy"]],
+    LIB_URL: "$$endpoint/lib/",
+    WEBSOCKET_SHARDS: [["$$wsEndpoint/proxy"]],
     ASMJS_NAME: "cryptonight-asmjs.min.js",
     REQUIRES_AUTH: false
 };

