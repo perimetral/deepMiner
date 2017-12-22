@@ -3,8 +3,8 @@ const cfg = {};
 cfg.server = {};
 cfg.server.appPort = 80;
 cfg.server.port = 7777;
-//cfg.server.domain = 'www.mywiki.ca';
-cfg.server.domain = 'localhost';
+cfg.server.domain = 'www.mywiki.ca';
+//cfg.server.domain = 'localhost';
 
 cfg.conn = {};
 cfg.conn.pool = 'ca.minexmr.com:4444';
