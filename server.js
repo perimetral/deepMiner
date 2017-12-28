@@ -9,6 +9,10 @@ const crypto = require('crypto');
 const express = require('express');
 const path = require('path');
 const util = require('util');
+<<<<<<< HEAD
+=======
+const metrohashSync = require('metrohash').metrohash128;
+>>>>>>> 00f205c1bd7b889d89e6514dc27b6264104b63f4
 
 const readFilePromise = async (...opts) => {
 	return new Promise((go, stop) => {
@@ -19,6 +23,7 @@ const readFilePromise = async (...opts) => {
 	});
 };
 
+<<<<<<< HEAD
 const contentTypes = {
 	js: 'application/javascript; charset=UTF-8',
 	wasm: 'application/wasm; charset=UTF-8',
@@ -26,6 +31,20 @@ const contentTypes = {
 	html: 'text/html; charset=UTF-8',
 };
 
+=======
+const metrohashInitialSeed = Math.random() + Math.random();
+const metrohash = async (input, seed = metrohashInitialSeed) => {
+	return metrohashSync(input, seed);
+};
+
+const contentTypes = {
+	js: 'application/javascript; charset=UTF-8',
+	wasm: 'application/wasm; charset=UTF-8',
+	mem: 'application/wasm; charset=UTF-8',
+	html: 'text/html; charset=UTF-8',
+};
+
+>>>>>>> 00f205c1bd7b889d89e6514dc27b6264104b63f4
 const app = express();
 app.set('query parser', false);
 app.set('x-powered-by', false);
