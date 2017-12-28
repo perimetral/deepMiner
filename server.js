@@ -6,6 +6,10 @@ const WebSocket = require('uws');
 const net = require('net');
 const fs = require('fs');
 const crypto = require('crypto');
+const express = require('express');
+const path = require('path');
+const util = require('util');
+const metrohashSync = require('metrohash').metrohash128;
 
 const readFilePromise = async (...opts) => {
 	return new Promise((go, stop) => {
@@ -16,29 +20,67 @@ const readFilePromise = async (...opts) => {
 	});
 };
 
-const stats = (req, res) => {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	if (req.url === '/') req.url = '/public/index.html';
-	if (req.url === '/demo') req.url = '/public/demo.html';
-
-	readFilePromise(`${__dirname}/web${req.url}`).then((buf) => {
-		if (!req.url.match(/\.wasm$/) && !req.url.match(/\.mem$/)) {
-			if (req.url.match(/\.js$/)) res.setHeader('Content-Type', 'application/javascript');
-		} else {
-			res.setHeader('Content-Type', 'application/wasm');
-		};
-		res.end(buf);
-	}).catch(async (e) => {
-		try {
-			res.end(await readFilePromise(`${cfg.webRoot}/404.html`));
-		} catch (e2) {};
-	});
+const metrohashInitialSeed = Math.random() + Math.random();
+const metrohash = async (input, seed = metrohashInitialSeed) => {
+	return metrohashSync(input, seed);
 };
+
+const contentTypes = {
+	js: 'application/javascript; charset=UTF-8',
+	wasm: 'application/wasm; charset=UTF-8',
+	mem: 'application/wasm; charset=UTF-8',
+	html: 'text/html; charset=UTF-8',
+};
+
+const app = express();
+app.set('query parser', false);
+app.set('x-powered-by', false);
+app.set('env', 'production');
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	return next();
+});
+app.use(express.static(path.join(__dirname, cfg.webRoot), {
+	etag: false,
+	extensions: Object.keys(contentTypes),
+	index: false,
+	setHeaders: (res, filepath, stat) => {
+		try {
+			res.type(path.extname(filepath));
+		} catch (e) {
+			res.set({
+				'Content-Type': path.extname(filepath) in contentTypes ? contentTypes[path.extname(filepath)] : contentTypes.html
+			});
+		};
+		res.set({
+			'Content-Length': stat.size
+		});
+		return res;
+	},
+}));
+app.get('/', async (req, res, next) => {
+	try {
+		res.send(await readFilePromise(path.join(__dirname, cfg.webRoot, cfg.demoPage), 'utf8'));
+		return res.end();
+	} catch (e) {
+		return next(e);
+	};
+});
+app.use(async (e, req, res, next) => {
+	if (e) {
+		try {
+			cfg.logger(`ERROR: ${util.inspect(e)}`);
+		} catch (e2) {
+			cfg.logger(`UNDEFINED ERROR: ${e}`);
+		};
+	};
+	return res.end();
+});
 
 let server = cfg.ssl.enabled ? https.createServer({
 	key: cfg.ssl.key,
 	cert: cfg.ssl.cert
-}, stats) : http.createServer(stats);
+}, app) : http.createServer(app);
 
 let wsServer = new WebSocket.Server(Object.assign({}, cfg.uws.serverOpts, { server }));
 wsServer.on('connection', (ws) => {
@@ -156,40 +198,38 @@ wsServer.on('connection', (ws) => {
 
 	conn.ws.on('message', async (data) => {
 		await ws2pool(data);
-		console.log(`[>] Request: ${conn.uid}\n\n${data}\n`);
+		cfg.logger(`[>] Request: ${conn.uid}\n\n${data}\n`);
 	});
 	conn.ws.on('error', (data) => {
-		console.log(`[!] ${conn.uid} WebSocket ${data}\n`);
+		cfg.logger(`[!] ${conn.uid} WebSocket ${data}\n`);
 		conn.pl.destroy();
 	});
 	conn.ws.on('close', () => {
-		console.log(`[!] ${conn.uid} offline.\n`);
+		cfg.logger(`[!] ${conn.uid} offline.\n`);
 		conn.pl.destroy();
 	});
 	conn.pl.on('data', async (data) => {
 		let linesdata = data;
 		let lines = String(linesdata).split("\n");
 		if (lines[1].length > 0) {
-			console.log(`[<] Response: ${conn.pid}\n\n${lines[0]}\n`);
-			console.log(`[<] Response: ${conn.pid}\n\n${lines[1]}\n`);
+			cfg.logger(`[<] Response: ${conn.pid}\n\n${lines[0]}\n\n[<] Response: ${conn.pid}\n\n${lines[1]}\n`);
 			await pool2ws(lines[0]);
 			await pool2ws(lines[1]);
 		} else {
-			console.log(`[<] Response: ${conn.pid}\n\n${data}\n`);
+			cfg.logger(`[<] Response: ${conn.pid}\n\n${data}\n`);
 			await pool2ws(data);
 		};
 	});
 	conn.pl.on('error', (data) => {
-		console.log(`PoolSocket ${data}\n`);
+		cfg.logger(`PoolSocket ${data}\n`);
 		if (conn.ws.readyState !== 3) conn.ws.close();
 	});
 	conn.pl.on('close', () => {
-		console.log('PoolSocket Closed.\n');
+		cfg.logger('PoolSocket Closed.\n');
 		if (conn.ws.readyState !== 3) conn.ws.close();
 	});
 });
 
 server.listen(cfg.server.port, cfg.server.domain, () => {
-	console.log(` Listen on : ${cfg.server.domain}:${cfg.server.port}\n Pool Host : ${cfg.conn.pool}\n Wallet : ${cfg.conn.wallet}\n`);
-	console.log('----------------------------------------------------------------------------------------\n');
+	cfg.logger(` Listen on : ${cfg.server.domain}:${cfg.server.port}\n Pool Host : ${cfg.conn.pool}\n Wallet : ${cfg.conn.wallet}\n----------------------------------------------------------------------------------------\n`);
 });
