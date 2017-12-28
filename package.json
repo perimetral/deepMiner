@@ -5,9 +5,10 @@
   "repository": "https://github.com/perimetral/uDeepMiner",
   "main": "server.js",
   "dependencies": {
+    "pm2": "*",
     "ws": "*",
-    "uws": "*",
-    "pm2": "*"
+    "express": "*",
+    "metrohash": "*"
   },
   "devDependencies": {},
   "scripts": {

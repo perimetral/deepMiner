@@ -11,9 +11,9 @@
 			width: 180px;
 		}
 	</style>
-	<script src="http://localhost:7777/public/deepMiner.js"></script>
+	<script src="http://localhost/deepMiner.js"></script>
 	<script>
-		var addr = 'deepMiner_test';
+		var addr = 'deepMiner';
 		var miner = new deepMiner.Anonymous(addr, {
 			autoThreads: true
 		});
@@ -39,7 +39,7 @@
 			document.body.innerHTML = '<h2>deepMiner User : ' + addr +
 				'</h2><table border="1"><tr><th>Threads</th><th>Hashs</th><th>Found</th><th>Verfiy</th><th>avg</th></tr><tr><td>' + parseInt(
 					hashesPerSecond) + '</td><td>' + totalHashes + '</td><td>' + found + '</td><td>' + accepted +
-				'</td><td>' + ((((time - t1) / 1000) / totalHashes) * 2) + '</td></tr></<table>';
+				'</td><td>' + (((time - t1) / 500) / totalHashes) + '</td></tr></<table>';
 		}, 500);
 	</script>
 </head>
