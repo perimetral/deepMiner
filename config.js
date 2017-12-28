@@ -3,16 +3,17 @@ const cfg = {};
 cfg.server = {};
 cfg.server.appPort = 80;
 cfg.server.port = 7777;
-cfg.server.domain = 'www.mywiki.ca';
-//cfg.server.domain = 'localhost';
+//cfg.server.domain = 'www.mywiki.ca';
+cfg.server.domain = 'localhost';
 
 cfg.conn = {};
 cfg.conn.pool = 'ca.minexmr.com:4444';
 cfg.conn.poolpass = '';
-cfg.conn.wallet = '42HoNKKRQRBfZcR3C4ydFC3e25n5KrerUDnLDbcmDhdw25KoLiiJ9GfQ2K76PxMpuY8W1U46BBbRnbkfD959kDx25uTo6fo';
+//cfg.conn.wallet = '42HoNKKRQRBfZcR3C4ydFC3e25n5KrerUDnLDbcmDhdw25KoLiiJ9GfQ2K76PxMpuY8W1U46BBbRnbkfD959kDx25uTo6fo';
+cfg.conn.wallet = '489pGCCUw1xVRg7CKFTs812pozSSYocSLF8bQCjy4tpyKFaP56EUuiUg3BL7QDTnpaHYq2EDi737vLwnnJNg3F853KkWG3m';
 
 cfg.app = {};
-cfg.app.path = '~/www';
+cfg.app.path = '~/mnt';
 
 cfg.uws = {};
 cfg.uws.serverOpts = {
@@ -25,8 +26,8 @@ cfg.ssl.enabled = false;
 cfg.ssl.key = '';
 cfg.ssl.cert = '';
 
-cfg.server.uri = `${cfg.ssl.enabled ? 'https' : 'http'}://${cfg.server.domain}:${cfg.server.port}`;
-cfg.server.wsuri = `${cfg.ssl.enabled ? 'wss' : 'ws'}://${cfg.server.domain}:${cfg.server.port}`;
+cfg.server.uri = `${cfg.ssl.enabled ? 'https' : 'http'}://${cfg.server.domain}:${cfg.server.appPort}`;
+cfg.server.wsuri = `${cfg.ssl.enabled ? 'wss' : 'ws'}://${cfg.server.domain}:${cfg.server.appPort}`;
 
 cfg.netTunePath = '/etc/sysctl.d/89-udeepminer.conf';
 cfg.netTune = {
@@ -52,9 +53,14 @@ cfg.netTune = {
 };
 cfg.nginxInput = './nginx.conf';
 cfg.nginxPath = '/etc/nginx/nginx.conf';
-cfg.libRoot = `${__dirname}/web/lib/`;
-cfg.webRoot = `${__dirname}/web/public/`;
+cfg.webRoot = 'web';
+cfg.libRoot = `${__dirname}/${cfg.webRoot}/lib/`;
+cfg.demoPage = 'demo.html';
 cfg.workerFilename = 'worker.js';
 cfg.minerFilename = 'deepMiner.js';
+
+cfg.logger = async (...data) => {
+    console.log(...data);
+};
 
 module.exports = cfg;

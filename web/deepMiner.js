@@ -211,7 +211,7 @@
             this._asmjsStatus = "loaded";
             callback()
         }.bind(this), xhr);
-        xhr.open("get", "$$endpoint/public/worker.js", true);
+        xhr.open("get", "$$endpoint/worker.js", true);
         xhr.send()
         if (this._useWASM || this._asmjsStatus === "loaded") {
             callback()
