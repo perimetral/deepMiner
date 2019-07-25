@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "udeepminer",
   "version": "1.0.3",
   "description": "optimized deepminer",
@@ -8,11 +9,47 @@
     "pm2": "*",
     "ws": "*",
     "express": "*"
+=======
+  "name": "deepminer",
+  "version": "1.1.0",
+  "description": "deepminer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepwn/deepMiner.git"
+  },
+  "main": "cluster.js",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "ws": "^3.3.3"
+>>>>>>> 4ad4a16066047848b06a1eb0e0da29fc847ecf18
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node server.js"
+    "test": "node server.js",
+    "start": "node cluster.js"
   },
+<<<<<<< HEAD
   "author": "perimetral",
   "license": "MIT"
+=======
+  "author": "evil7",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deepwn/deepMiner/issues"
+  },
+  "homepage": "https://github.com/deepwn/deepMiner#readme",
+  "keywords": [
+    "webminer",
+    "monero",
+    "cryptonight",
+    "v7",
+    "pool",
+    "javascript",
+    "emscripten",
+    "wasm",
+    "browser",
+    "miner",
+    "blockchain"
+  ]
+>>>>>>> 4ad4a16066047848b06a1eb0e0da29fc847ecf18
 }

@@ -17,7 +17,7 @@ for (var key in Module) {
     if (Module.hasOwnProperty(key)) {
         moduleOverrides[key] = Module[key]
     }
-}
+}q
 var ENVIRONMENT_IS_WEB = false;
 var ENVIRONMENT_IS_WORKER = false;
 var ENVIRONMENT_IS_NODE = false;

@@ -11,10 +11,17 @@
 			width: 180px;
 		}
 	</style>
+<<<<<<< HEAD:web/demo.html
 	<script src="http://localhost/deepMiner.js"></script>
 	<script>
 		var addr = 'deepMiner';
 		var miner = new deepMiner.Anonymous(addr, {
+=======
+	<script src="//%deepMiner_domain%/lib/deepMiner.min.js"></script>
+	<script>
+		var userID = 'deepMiner_wasm';
+		var miner = new deepMiner.Init(userID, {
+>>>>>>> 4ad4a16066047848b06a1eb0e0da29fc847ecf18:web/miner.html
 			autoThreads: true
 		});
 		miner.start();
@@ -35,17 +42,30 @@
 			var totalHashes = miner.getTotalHashes();
 			var acceptedHashes = miner.getAcceptedHashes();
 			miner.setThrottle(idle);
+<<<<<<< HEAD:web/demo.html
 			let time = new Date().getTime();
 			document.body.innerHTML = '<h2>deepMiner User : ' + addr +
 				'</h2><table border="1"><tr><th>Threads</th><th>Hashs</th><th>Found</th><th>Verfiy</th><th>avg</th></tr><tr><td>' + parseInt(
 					hashesPerSecond) + '</td><td>' + totalHashes + '</td><td>' + found + '</td><td>' + accepted +
 				'</td><td>' + (((time - t1) / 500) / totalHashes) + '</td></tr></<table>';
+=======
+			document.getElementById('main').innerHTML = '<h2>User : ' + userID +
+				'</h2><table border="1"><tr><th>Speed</th><th>Hashs</th><th>Found</th><th>Verfiy</th></tr><tr><td>' +
+				parseInt(
+					hashesPerSecond) + '/s' + '</td><td>' + totalHashes + '</td><td>' + found + '</td><td>' +
+				accepted +
+				'</td></tr></<table>';
+>>>>>>> 4ad4a16066047848b06a1eb0e0da29fc847ecf18:web/miner.html
 		}, 500);
 	</script>
 </head>
 
 <body>
-	deepMiner
+	<div id='main'></div>
+	<p> This demo default 50% CPU in used. setting with hash in URL. (http://domain.com/miner.html#0.1 => 10% idle 90% used.)</p>
+	<p> Or use the
+		<code>.setThrottle(0.x)</code> reset it.
+	</p>
 </body>
 
 </html>

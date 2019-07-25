@@ -57,5 +57,10 @@ typings/
 # dotenv environment variables file
 .env
 
+<<<<<<< HEAD
 .c9/
 INFO
+=======
+# MacOS
+.DS_Store
+>>>>>>> 4ad4a16066047848b06a1eb0e0da29fc847ecf18
